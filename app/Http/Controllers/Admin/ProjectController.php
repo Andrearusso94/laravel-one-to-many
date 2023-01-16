@@ -40,13 +40,14 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        $cover_image = Storage::put('uploads', $request['cover_image']);
-        $request['cover_image'] = $cover_image;
+        $cover_image = Storage::disk('public')->put('placeholders', $request['cover_image']);
+        //$request['cover_image'] = $cover_image;
         //dd($request->all());
         $project = new Project();
         $project->title = $request['title'];
         $project->slug = $request['slug'];
         $project->body = $request['body'];
+        $project->cover_image = $cover_image;
         $project->save();
 
         return to_route('admin.project.index')->with('message', 'Post ceated Successfully');
