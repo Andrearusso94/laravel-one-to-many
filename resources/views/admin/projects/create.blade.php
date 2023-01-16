@@ -18,6 +18,15 @@
         <input type="text" value="{{old('title')}}" name="title" id="title" class="form-control @error('title') is-invalid @enderror" placeholder="" aria-describedby="helpId">
         <small id="helpId" class="text-muted">Help text</small>
     </div>
+    <div class="mb-3">
+        <label for="type_id" class="form-label">Types</label>
+        <select class="form-select form-select-lg" name="type_id" id="type_id">
+            <option selected>Select one</option>
+            @foreach($type as $type)
+            <option value="{{$type->id}}">{{$type->name}}</option>
+            @endforeach
+        </select>
+    </div>
     @error('title')
     <div class="alert alert-danger" role="alert">
         {{$message}}
@@ -28,6 +37,7 @@
         <input type="text" value="{{old('slug')}}" name="slug" id="slug" class="form-control" placeholder="" aria-describedby="helpId">
         <small id="helpId" class="text-muted">Help text</small>
     </div>
+
     <div class="mb-3">
         <label for="cover_image" class="form-label">Cover Image</label>
         <input type="file" name="cover_image" id="cover_image" class="form-control" placeholder="" aria-describedby="coverimagehelper">

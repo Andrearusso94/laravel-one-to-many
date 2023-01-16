@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Models\Type;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use Illuminate\Support\Facades\Storage;
@@ -29,7 +30,9 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('admin.projects.create');
+        $type = Type::all();
+        //dd($type);
+        return view('admin.projects.create', compact('type'));
     }
 
     /**
@@ -40,14 +43,16 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
+
         $cover_image = Storage::disk('public')->put('placeholders', $request['cover_image']);
         //$request['cover_image'] = $cover_image;
-        //dd($request->all());
+        // dd($request['type_id']);
         $project = new Project();
         $project->title = $request['title'];
         $project->slug = $request['slug'];
         $project->body = $request['body'];
         $project->cover_image = $cover_image;
+        $project->type_id = $request['type_id'];
         $project->save();
 
         return to_route('admin.project.index')->with('message', 'Post ceated Successfully');
